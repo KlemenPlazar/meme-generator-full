@@ -3,8 +3,8 @@ const cors = require('cors');
 const app = express()
 const port = 5000
 
-app.use(cors()); // Enable requests from anywhere
-app.use(express.json()); // Parse json body requests
+app.use(cors());
+app.use(express.json());
 
 require('./routes')(app);
 

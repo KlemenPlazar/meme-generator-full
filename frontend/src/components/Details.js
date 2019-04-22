@@ -12,7 +12,6 @@ class Details extends Component {
   }
   render() {
     const { meme } = this.state;
-    console.log(meme)
     const style = { color: meme.color, fontSize: meme.fontSize };
     return (
       <div className="meme-details-wrapper">

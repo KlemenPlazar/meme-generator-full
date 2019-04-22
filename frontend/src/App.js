@@ -12,46 +12,69 @@ import Create from './components/Create';
 import Profile from './components/Profile';
 import Error from './components/Error';
 
-import data from './api/defaultData';
+import api from './api/index';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = data;
+    this.state = {user: undefined, memes: []}
   }
-  login = (username, password) => {
-    this.setState({ user: { username, id: 1 } });
+
+  componentDidMount() {
+    this.loadMemes();
+    this.checkLogin();
+  }
+
+  checkLogin = async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const user = await api.getUser(token);
+      if (user) {
+        this.setState({user});
+      }
+    }
+  }
+
+  loadMemes = async () => {
+    const memes = await api.getAllMemes();
+    this.setState({memes: memes})
+  }
+  
+  login = async (username, password) => {
+    const user = await api.login(username, password);
+    if(user) {
+      this.setState({user})
+    }
   };
+
   logout = () => {
     this.setState({ user: null });
+    localStorage.removeItem('token');
   };
-  register = (username, password) => {
-    this.setState({
-      user: { username, id: Math.floor(Math.random() * 1000000) },
-    });
+
+  register = async (username, password) => {
+    const user = await api.register(username, password);
+    if(user) {
+      this.setState({user})
+    }
   };
-  createMeme = meme => {
-    this.setState(prevState => ({ memes: [...prevState.memes, meme] }));
+
+  createMeme = async meme => {
+    await api.createMeme(meme);
+    this.loadMemes();
   };
-  upvote = id => {
-    const [meme] = this.state.memes.filter(m => m.id === id);
-    const upvotes = meme.upvotes + 1;
-    this.setState({
-      memes: this.state.memes.map(el =>
-        el.id === id ? Object.assign({}, el, { upvotes }) : el
-      ),
-    });
+
+  upvote = async id => {
+    await api.upvote(id);
+    this.loadMemes()
   };
-  downvote = id => {
-    const [meme] = this.state.memes.filter(m => m.id === id);
-    const upvotes = meme.upvotes - 1;
-    this.setState({
-      memes: this.state.memes.map(el =>
-        el.id === id ? Object.assign({}, el, { upvotes }) : el
-      ),
-    });
+
+  downvote = async id => {
+    await api.downvote(id);
+    this.loadMemes()
   };
+
   render() {
     return (
       <Router>

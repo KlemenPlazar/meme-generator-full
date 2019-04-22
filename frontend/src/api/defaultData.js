@@ -1,0 +1,41 @@
+export default {
+  user: {
+    id: 1,
+    username: 'Obama',
+  },
+  memes: [
+    {
+      id: 1,
+      img: 'img/aliens-guy.jpg',
+      text: 'Aliens!',
+      color: 'white',
+      fontSize: '30px',
+      author: 'Obama',
+      authorId: 1,
+      upvotes: 4,
+      createdAt: '2019/1/1',
+    },
+    {
+      id: 2,
+      img: 'img/science-guy.jpg',
+      text: 'Mind blown',
+      color: 'white',
+      fontSize: '30px',
+      author: 'skankhunt42',
+      authorId: 2,
+      upvotes: 0,
+      createdAt: '2018/12/13',
+    },
+    {
+      id: 3,
+      img: 'img/be-like-bill.jpg',
+      text: 'Be like Bill',
+      color: 'black',
+      fontSize: '30px',
+      author: 'sk8erb0y',
+      authorId: 3,
+      upvotes: 13,
+      createdAt: '2019/1/3',
+    },
+  ],
+};
